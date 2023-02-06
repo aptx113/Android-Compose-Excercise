@@ -28,23 +28,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.danteyu.android_compose_exercise.features.affirmations.ui.AffirmationScreen
 import com.danteyu.android_compose_exercise.features.cupcake.ui.CupcakeApp
 import com.danteyu.android_compose_exercise.features.game.ui.GameApp
 import com.danteyu.android_compose_exercise.features.marsphotos.ui.MarsPhotosApp
 import com.danteyu.android_compose_exercise.features.racetracker.ui.RaceTrackerApp
 import com.danteyu.android_compose_exercise.features.reply.ui.ReplyApp
+import com.danteyu.android_compose_exercise.features.sqldemo.data.db.EmailDatabase
 import com.danteyu.android_compose_exercise.features.superheros.ui.HeroesApp
 import com.danteyu.android_compose_exercise.theme.AndroidComposeExerciseTheme
 import com.danteyu.android_compose_exercise.features.tipTime.TipTimeScreen
 import com.danteyu.android_compose_exercise.features.woof.ui.WoofApp
+import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            EmailDatabase.getDatabase(applicationContext).emailDao().getAll()
+        }
         setContent {
-           MarsPhotosApp()
+            MarsPhotosApp()
 //            val windowSize = calculateWindowSizeClass(activity = this)
 //            // A surface container using the 'background' color from the theme
 //            ReplyApp(windowSize.widthSizeClass)
