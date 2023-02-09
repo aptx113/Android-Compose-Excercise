@@ -14,7 +14,10 @@ import com.danteyu.android_compose_exercise.features.inventory.ui.item.ItemEntry
 object InventoryViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            ItemDetailsViewModel(this.createSavedStateHandle())
+            ItemDetailsViewModel(
+                this.createSavedStateHandle(),
+                inventoryApplication().container.itemsRepository
+            )
         }
         initializer {
             ItemEditViewModel(this.createSavedStateHandle())
