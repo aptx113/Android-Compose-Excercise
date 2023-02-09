@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.res.stringResource
@@ -19,6 +20,7 @@ import com.danteyu.android_compose_exercise.R
 import com.danteyu.android_compose_exercise.features.inventory.InventoryTopAppBar
 import com.danteyu.android_compose_exercise.features.inventory.ui.InventoryViewModelProvider
 import com.danteyu.android_compose_exercise.features.inventory.ui.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 import java.util.*
 
 object ItemEntryDestination : NavigationDestination {
@@ -34,6 +36,7 @@ fun ItemEntryScreen(
     canNavigateBack: Boolean = true,
     viewModel: ItemEntryViewModel = viewModel(factory = InventoryViewModelProvider.Factory)
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         InventoryTopAppBar(
             title = stringResource(id = ItemEntryDestination.titleRes),
@@ -44,7 +47,12 @@ fun ItemEntryScreen(
         ItemEntryBody(
             itemUiState = viewModel.itemUiState,
             onItemValueChange = viewModel::updateUiState,
-            onSaveClick = { },
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveItem()
+                    navigateBack()
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
 
