@@ -32,6 +32,7 @@ import androidx.lifecycle.lifecycleScope
 import com.danteyu.android_compose_exercise.features.affirmations.ui.AffirmationScreen
 import com.danteyu.android_compose_exercise.features.cupcake.ui.CupcakeApp
 import com.danteyu.android_compose_exercise.features.game.ui.GameApp
+import com.danteyu.android_compose_exercise.features.inventory.InventoryApp
 import com.danteyu.android_compose_exercise.features.marsphotos.ui.MarsPhotosApp
 import com.danteyu.android_compose_exercise.features.racetracker.ui.RaceTrackerApp
 import com.danteyu.android_compose_exercise.features.reply.ui.ReplyApp
@@ -50,10 +51,9 @@ class MainActivity : ComponentActivity() {
             EmailDatabase.getDatabase(applicationContext).emailDao().getAll()
         }
         setContent {
-            MarsPhotosApp()
-//            val windowSize = calculateWindowSizeClass(activity = this)
-//            // A surface container using the 'background' color from the theme
-//            ReplyApp(windowSize.widthSizeClass)
+           MaterialTheme {
+               InventoryApp()
+           }
         }
     }
 }
