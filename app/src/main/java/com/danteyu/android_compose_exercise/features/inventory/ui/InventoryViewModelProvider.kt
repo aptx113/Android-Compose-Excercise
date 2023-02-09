@@ -23,7 +23,7 @@ object InventoryViewModelProvider {
             ItemEntryViewModel(inventoryApplication().container.itemsRepository)
         }
 
-        initializer { InventoryHomeViewModel() }
+        initializer { InventoryHomeViewModel(inventoryApplication().container.itemsRepository) }
     }
 }
 

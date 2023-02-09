@@ -9,15 +9,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.danteyu.android_compose_exercise.R
 import com.danteyu.android_compose_exercise.features.inventory.InventoryTopAppBar
 import com.danteyu.android_compose_exercise.features.inventory.data.db.Item
+import com.danteyu.android_compose_exercise.features.inventory.ui.InventoryViewModelProvider
 import com.danteyu.android_compose_exercise.features.inventory.ui.navigation.NavigationDestination
 import java.text.NumberFormat
 
@@ -31,8 +35,10 @@ object InventoryHomeDestination : NavigationDestination {
 fun InventoryHomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Item) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: InventoryHomeViewModel = viewModel(factory = InventoryViewModelProvider.Factory)
 ) {
+    val homeUiState by viewModel.homeUiState.collectAsState()
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -54,7 +60,7 @@ fun InventoryHomeScreen(
         }
     ) { innerPadding ->
         InventoryHomeBody(
-            itemList = listOf(),
+            itemList = homeUiState.itemList,
             onItemClick = navigateToItemUpdate,
             modifier = modifier.padding(innerPadding)
         )
