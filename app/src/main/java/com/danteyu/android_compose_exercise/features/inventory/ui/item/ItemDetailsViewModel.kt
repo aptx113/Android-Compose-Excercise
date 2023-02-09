@@ -33,6 +33,10 @@ class ItemDetailsViewModel(
         }
     }
 
+    suspend fun deleteItem(){
+        itemsRepository.deleteItem(uiState.value.toItem())
+    }
+
     companion object {
         private const val TIMEOUT_MILLIS = 5_000L
     }

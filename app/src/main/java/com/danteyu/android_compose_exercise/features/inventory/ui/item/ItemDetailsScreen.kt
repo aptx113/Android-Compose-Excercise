@@ -19,6 +19,7 @@ import com.danteyu.android_compose_exercise.R
 import com.danteyu.android_compose_exercise.features.inventory.InventoryTopAppBar
 import com.danteyu.android_compose_exercise.features.inventory.ui.InventoryViewModelProvider
 import com.danteyu.android_compose_exercise.features.inventory.ui.navigation.NavigationDestination
+import kotlinx.coroutines.launch
 
 object ItemDetailsDestination : NavigationDestination {
     override val route: String = "item_details"
@@ -35,6 +36,7 @@ fun ItemDetailsScreen(
     viewModel: ItemDetailsViewModel = viewModel(factory = InventoryViewModelProvider.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             InventoryTopAppBar(
@@ -59,7 +61,12 @@ fun ItemDetailsScreen(
         ItemDetailsBody(
             itemUiState = uiState,
             onSellItem = { viewModel.reduceQuantityByOne() },
-            onDelete = {},
+            onDelete = {
+                coroutineScope.launch {
+                    viewModel.deleteItem()
+                    navigateBack()
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }
