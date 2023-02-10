@@ -180,4 +180,9 @@
     <string name="sell">Sell</string>
     <string name="yes">Yes</string>
 
+    <string name="dessert_release">Dessert Release</string>
+    <string name="dessert_release_app_bar">Android Dessert Release</string>
+    <string name="grid_layout_toggle">Grid layout</string>
+    <string name="linear_layout_toggle">Linear layout</string>
+
 </resources>
