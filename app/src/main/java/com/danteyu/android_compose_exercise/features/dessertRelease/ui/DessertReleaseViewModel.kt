@@ -2,24 +2,40 @@ package com.danteyu.android_compose_exercise.features.dessertRelease.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.danteyu.android_compose_exercise.R
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.danteyu.android_compose_exercise.features.dessertRelease.DessertReleaseApplication
+import com.danteyu.android_compose_exercise.features.dessertRelease.data.UserPreferencesRepository
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
-class DessertReleaseViewModel() : ViewModel() {
+class DessertReleaseViewModel(private val userPreferencesRepository: UserPreferencesRepository) :
+    ViewModel() {
     private val _uiState = MutableStateFlow(DessertReleaseUiState())
-    val uiState = _uiState.asStateFlow()
+    val uiState: StateFlow<DessertReleaseUiState> =
+        userPreferencesRepository.isLinearLayout.map { isLinearLayout ->
+            DessertReleaseUiState(isLinearLayout)
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            DessertReleaseUiState()
+        )
 
     fun selectLayout(isLinearLayout: Boolean) {
-        _uiState.update { DessertReleaseUiState(isLinearLayout) }
+        viewModelScope.launch { userPreferencesRepository.saveLayoutPreference(isLinearLayout) }
     }
 
     companion object {
         val Factory: ViewModelProvider.Factory =
-            viewModelFactory { initializer { DessertReleaseViewModel() } }
+            viewModelFactory {
+                initializer {
+                    val application = (this[APPLICATION_KEY] as DessertReleaseApplication)
+                    DessertReleaseViewModel(application.userPreferencesRepository)
+                }
+            }
     }
 }
 

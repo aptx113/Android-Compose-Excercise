@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.danteyu.android_compose_exercise.features.affirmations.ui.AffirmationScreen
 import com.danteyu.android_compose_exercise.features.cupcake.ui.CupcakeApp
+import com.danteyu.android_compose_exercise.features.dessertRelease.ui.DessertReleaseApp
 import com.danteyu.android_compose_exercise.features.game.ui.GameApp
 import com.danteyu.android_compose_exercise.features.inventory.InventoryApp
 import com.danteyu.android_compose_exercise.features.marsphotos.ui.MarsPhotosApp
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
            MaterialTheme {
-               InventoryApp()
+               DessertReleaseApp()
            }
         }
     }
