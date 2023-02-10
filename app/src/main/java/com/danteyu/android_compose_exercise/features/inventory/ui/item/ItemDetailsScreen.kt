@@ -47,7 +47,7 @@ fun ItemDetailsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navigateToEditItem(0) },
+                onClick = { navigateToEditItem(uiState.id) },
                 modifier = Modifier.navigationBarsPadding()
             ) {
                 Icon(

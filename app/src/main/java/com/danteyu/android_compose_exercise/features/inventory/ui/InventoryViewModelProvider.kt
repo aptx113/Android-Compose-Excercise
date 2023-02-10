@@ -20,7 +20,10 @@ object InventoryViewModelProvider {
             )
         }
         initializer {
-            ItemEditViewModel(this.createSavedStateHandle())
+            ItemEditViewModel(
+                this.createSavedStateHandle(),
+                inventoryApplication().container.itemsRepository
+            )
         }
         initializer {
             ItemEntryViewModel(inventoryApplication().container.itemsRepository)
