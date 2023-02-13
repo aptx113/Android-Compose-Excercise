@@ -1,6 +1,9 @@
 package com.danteyu.android_compose_exercise
 
+import android.content.ContentResolver
+import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -53,9 +56,9 @@ class MainActivity : ComponentActivity() {
             EmailDatabase.getDatabase(applicationContext).emailDao().getAll()
         }
         setContent {
-           MaterialTheme {
-               BluromaticScreen()
-           }
+            MaterialTheme {
+                BluromaticScreen()
+            }
         }
     }
 }
@@ -185,4 +188,14 @@ fun OnBoardingPreview() {
     AndroidComposeExerciseTheme {
         OnBoardingScreen(onContinueClicked = {})
     }
+}
+
+fun Context.getImageUri(): Uri {
+    val resources = this.resources
+    return Uri.Builder()
+        .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+        .authority(resources.getResourcePackageName(R.drawable.android_cupcake))
+        .appendPath(resources.getResourceTypeName(R.drawable.android_cupcake))
+        .appendPath(resources.getResourceEntryName(R.drawable.android_cupcake))
+        .build()
 }
