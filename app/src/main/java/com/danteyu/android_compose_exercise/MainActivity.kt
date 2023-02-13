@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.danteyu.android_compose_exercise.features.affirmations.ui.AffirmationScreen
+import com.danteyu.android_compose_exercise.features.bluromatic.ui.BluromaticScreen
 import com.danteyu.android_compose_exercise.features.cupcake.ui.CupcakeApp
 import com.danteyu.android_compose_exercise.features.dessertRelease.ui.DessertReleaseApp
 import com.danteyu.android_compose_exercise.features.game.ui.GameApp
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
            MaterialTheme {
-               DessertReleaseApp()
+               BluromaticScreen()
            }
         }
     }
