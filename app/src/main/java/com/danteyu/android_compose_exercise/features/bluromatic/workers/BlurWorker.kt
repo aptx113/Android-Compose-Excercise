@@ -27,6 +27,7 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, 
             applicationContext
         )
         return withContext(Dispatchers.IO) {
+            delay(DELAY_TIME_MILLIS)
             return@withContext try {
                 require(!resourceUri.isNullOrBlank()) {
                     val errorMessage =
