@@ -34,6 +34,10 @@ class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : Vi
         bluromaticRepository.applyBlur(blurLevel)
     }
 
+    fun cancelWork() {
+        bluromaticRepository.cancelWork()
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

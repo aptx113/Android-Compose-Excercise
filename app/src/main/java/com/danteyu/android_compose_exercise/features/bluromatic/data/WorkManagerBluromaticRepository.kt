@@ -37,6 +37,7 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
     }
 
     override fun cancelWork() {
+        workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME)
     }
 
     private fun createInputDataForWorkRequest(blurLevel: Int, imageUri: Uri): Data {
