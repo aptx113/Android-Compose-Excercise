@@ -75,11 +75,12 @@ class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : CoroutineW
     @RequiresApi(Build.VERSION_CODES.Q)
     fun saveImage(bitmap: Bitmap, contentResolver: ContentResolver): String {
         val fileName = "$title+jpg"
-        var outputStream: OutputStream? = null
+        var outputStream: OutputStream?
         val imageUri: Uri?
         val contentValues = ContentValues().apply {
             put(DISPLAY_NAME, fileName)
-            put(MIME_TYPE, "image/jpg")
+            put(MIME_TYPE, "image/jpeg")
+            put(MIME_TYPE, "image/png")
             put(RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
             put(IS_PENDING, 1)
         }

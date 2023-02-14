@@ -12,13 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.danteyu.android_compose_exercise.R
@@ -65,7 +64,7 @@ fun BluromaticScreenContent(
         BlurActions(
             blurUiState = blurUiState,
             onGoClick = { applyBlur(selectedValue) },
-            onSeeFileClick = {},
+            onSeeFileClick = { currentUri -> showBlurredImage(context, currentUri) },
             onCancelClick = { cancelWork() })
     }
 }
@@ -79,8 +78,27 @@ private fun BlurActions(
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Button(onClick = onGoClick) {
-            Text(text = stringResource(id = R.string.go))
+        when (blurUiState) {
+            is BlurUiState.Default -> {
+                Button(onClick = onGoClick) {
+                    Text(text = stringResource(id = R.string.go))
+                }
+            }
+            is BlurUiState.Loading -> {
+                Button(onClick = onCancelClick) {
+                    Text(text = stringResource(id = R.string.cancel_work))
+                }
+                CircularProgressIndicator(modifier = modifier.padding(8.dp))
+            }
+            is BlurUiState.Complete -> {
+                Button(onClick = onGoClick) {
+                    Text(text = stringResource(id = R.string.go))
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(onClick = { onSeeFileClick(blurUiState.outputUri) }) {
+                    Text(text = stringResource(id = R.string.see_file))
+                }
+            }
         }
     }
 }
