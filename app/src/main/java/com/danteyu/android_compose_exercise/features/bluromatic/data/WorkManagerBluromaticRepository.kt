@@ -24,12 +24,16 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
             .mapNotNull { if (it.isNotEmpty()) it.first() else null }
 
     override fun applyBlur(blurLevel: Int) {
+        val constraints = Constraints.Builder().setRequiresBatteryNotLow(true).build()
         var continuation = workManager.beginUniqueWork(
             IMAGE_MANIPULATION_WORK_NAME, ExistingWorkPolicy.REPLACE,
             OneTimeWorkRequest.Companion.from(CleanupWorker::class.java)
         )
         val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
-        blurBuilder.setInputData(createInputDataForWorkRequest(blurLevel, imageUri))
+        blurBuilder.apply {
+            setInputData(createInputDataForWorkRequest(blurLevel, imageUri))
+            setConstraints(constraints)
+        }
         continuation = continuation.then(blurBuilder.build())
         val save = OneTimeWorkRequestBuilder<SaveImageToFileWorker>().addTag(TAG_OUTPUT).build()
         continuation = continuation.then(save)
